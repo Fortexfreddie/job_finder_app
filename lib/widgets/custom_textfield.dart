@@ -45,6 +45,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 onPressed: () {
                   setState(() {
                     isPasswordVisible = !isPasswordVisible;
+                    // testing
                   });
                 },
               ) : null,
