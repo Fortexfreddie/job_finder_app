@@ -65,6 +65,21 @@ class _SignUpPageState extends State<SignUpPage> {
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
                 ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(thickness: 1, color: Colors.grey[300]),
+                    ),
+                    SizedBox(width: 10),
+                    Text("Or"),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Divider(thickness: 1, color: Colors.grey[300]),
+                    ),
+                  ],
+                ),
               ],
             ), 
             ),

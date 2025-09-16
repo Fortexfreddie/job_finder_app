@@ -28,6 +28,9 @@ class _CustomButtonState extends State<CustomButton> {
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.backgroundColor,
           padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         icon: widget.icon != null ? Icon(widget.icon, color: widget.textColor) : Container(),
         label: Text(
