@@ -26,6 +26,7 @@ class _CustomButtonState extends State<CustomButton> {
       child: ElevatedButton.icon(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
+          // side: BorderSide(color: Colors.grey.shade300),
           backgroundColor: widget.backgroundColor,
           padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(

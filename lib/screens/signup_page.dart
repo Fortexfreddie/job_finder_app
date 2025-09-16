@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 80),
+                SizedBox(height: 20),
                 Center(
                   child: Image(
                     image: AssetImage("assets/image_1.1.png"),
@@ -90,12 +90,58 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 10),
 
-                // Register with Google button
-                CustomButton(
-                  text: "Register with Google",
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black,
-                  icon: Icons.g_mobiledata,
+                // Register with Google button with OutlinedButton.icon
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Colors.grey.shade300),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    icon: Image.asset(
+                      "assets/google.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    label: Text(
+                      "Register with Google",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 10),
+
+                // Don't have an account? Sign Up
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ), 
