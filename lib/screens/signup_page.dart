@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
+import '../widgets/custom_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -43,18 +44,27 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintText: "Enter your phone",
                   prefixIcon: Icons.phone,
                   controller: _phoneController,
+                  keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: 10),
 
                 // Password TextField
                 CustomTextField(
-                  hintText: "hintText",
-                  prefixIcon: Icons.lock, 
+                  hintText: "Enter your password",
+                  prefixIcon: Icons.lock,
+                  suffixIcon: Icons.visibility, 
                   isPassword: true,
                   controller: _passwordController,
+                  keyboardType: TextInputType.visiblePassword,
                 ),
 
                 SizedBox(height: 10),
+                // continue button
+                CustomButton(
+                  text: "Continue",
+                  backgroundColor: Colors.blue,
+                  textColor: Colors.white,
+                ),
               ],
             ), 
             ),
