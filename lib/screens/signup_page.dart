@@ -14,6 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    // i want to see what the commit message looks like
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
