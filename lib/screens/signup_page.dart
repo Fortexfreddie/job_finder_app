@@ -80,6 +80,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ],
                 ),
+                SizedBox(height: 20),
+                // Register with Apple button
+                CustomButton(
+                  text: "Register with Apple",
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  icon: Icons.apple,
+                ),
+                SizedBox(height: 10),
+
+                // Register with Google button
+                CustomButton(
+                  text: "Register with Google",
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black,
+                  icon: Icons.g_mobiledata,
+                ),
               ],
             ), 
             ),
