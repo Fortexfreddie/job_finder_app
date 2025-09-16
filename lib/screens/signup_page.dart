@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_textfield.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -8,6 +9,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +29,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 300,
                     width: 300,
                   ),
+                ),
+
+                // SizedBox(height: 5),
+                Text(
+                  "Sign Up",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+
+                // Phone Number TextField
+                CustomTextField(
+                  hintText: "Enter your phone",
+                  prefixIcon: Icons.phone,
+                  controller: _phoneController,
+                ),
+                SizedBox(height: 10),
+
+                // Password TextField
+                CustomTextField(
+                  hintText: "hintText",
+                  prefixIcon: Icons.lock, 
+                  isPassword: true,
+                  controller: _passwordController,
                 ),
               ],
             ), 
