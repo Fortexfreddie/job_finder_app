@@ -22,10 +22,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: widget.isPassword! ? TextInputType.visiblePassword : TextInputType.phone,
       controller: widget.controller,
       obscureText: widget.isPassword!,
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
         prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
       ),

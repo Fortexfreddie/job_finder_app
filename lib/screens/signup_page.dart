@@ -53,6 +53,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   isPassword: true,
                   controller: _passwordController,
                 ),
+
+                SizedBox(height: 10),
               ],
             ), 
             ),
