@@ -149,6 +149,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     _validatePassword();
                     _validateName();
                     _validateEmail();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInPage()),
+                    );
                   },
                 ),
 
