@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/signup_page.dart';
+import 'screens/signin_page.dart';
 
 void main() {
   runApp(const JobFinderApp());
@@ -15,7 +15,7 @@ class JobFinderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Job Finder',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: SignUpPage(),
+      home: SignInPage(),
     );
   }
 }
