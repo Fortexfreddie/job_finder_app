@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
+import './signup_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -172,6 +173,10 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
                         // Navigator.pop(context);
                       },
                       child: Text(

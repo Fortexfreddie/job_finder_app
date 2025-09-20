@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
+import './signin_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -162,7 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      "Have an account?",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -173,9 +174,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     GestureDetector(
                       onTap: () {
                         // Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignInPage()),
+                        );
                       },
                       child: Text(
-                        "Sign up",
+                        "Sign in",
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
