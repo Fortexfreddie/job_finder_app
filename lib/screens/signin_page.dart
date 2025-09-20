@@ -30,7 +30,7 @@ class _SignInPageState extends State<SignInPage> {
       String phone = _phoneController.text.trim();
       _phoneError = phone.isEmpty
           ? "Mobile number cannot be empty"
-          : phone.length < 11
+          : phone.length < 11 || phone.length > 11
           ? "Please enter a valid mobile number"
           : null;
     });

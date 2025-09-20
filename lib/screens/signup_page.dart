@@ -13,8 +13,12 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   String? _phoneError;
   String? _passwordError;
+  String? _nameError;
+  String? _emailError;
 
   @override
 
@@ -25,12 +29,30 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.addListener(_validatePassword);
   }
 
+  void _validateName() {
+    setState(() {
+      String name = _nameController.text.trim();
+      _nameError = name.isEmpty ? "Full name cannot be empty" : null;
+    });
+  }
+
+  void _validateEmail() {
+    setState(() {
+      String email = _emailController.text.trim();
+      _emailError = email.isEmpty
+          ? "Email cannot be empty"
+          : !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)
+          ? "Please enter a valid email"
+          : null;
+    });
+  }
+
   void _validatePhone() {
     setState(() {
       String phone = _phoneController.text.trim();
       _phoneError = phone.isEmpty
           ? "Mobile number cannot be empty"
-          : phone.length < 11
+          : phone.length < 11 || phone.length > 11
           ? "Please enter a valid mobile number"
           : null;
     });
@@ -63,8 +85,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 Center(
                   child: Image(
                     image: AssetImage("assets/image_1.1.png"),
-                    height: 300,
-                    width: 300,
+                    height: 180,
+                    width: 180,
                   ),
                 ),
 
@@ -72,6 +94,26 @@ class _SignUpPageState extends State<SignUpPage> {
                 Text(
                   "Sign Up",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+
+                // Fullname TextField
+                CustomTextField(
+                  hintText: "Enter your full name",
+                  prefixIcon: Icons.person,
+                  controller: _nameController,
+                  keyboardType: TextInputType.name,
+                  errorText: _nameError,
+                ),
+                SizedBox(height: 10),
+
+                // Email TextField
+                CustomTextField(
+                  hintText: "Enter your email",
+                  prefixIcon: Icons.email,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  errorText: _emailError,
                 ),
                 SizedBox(height: 10),
 
@@ -102,6 +144,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   text: "Continue",
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
+                  onPressed: () {
+                    _validatePhone();
+                    _validatePassword();
+                    _validateName();
+                    _validateEmail();
+                  },
                 ),
 
                 SizedBox(height: 20),
@@ -125,10 +173,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   backgroundColor: Colors.black,
                   textColor: Colors.white,
                   icon: Icons.apple,
-                  onPressed: () {
-                    _validatePhone();
-                    _validatePassword();
-                  },
                 ),
                 SizedBox(height: 10),
 
