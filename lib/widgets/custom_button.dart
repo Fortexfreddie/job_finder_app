@@ -5,6 +5,7 @@ class CustomButton extends StatefulWidget {
   final Color backgroundColor;
   final Color textColor;
   final IconData? icon;
+  final VoidCallback? onPressed;
 
   const CustomButton({
     super.key,
@@ -12,6 +13,7 @@ class CustomButton extends StatefulWidget {
     this.backgroundColor = Colors.blue,
     this.textColor = Colors.white,
     this.icon,
+    this.onPressed,
   });
 
   @override
@@ -24,7 +26,7 @@ class _CustomButtonState extends State<CustomButton> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: widget.onPressed ?? () {},
         style: ElevatedButton.styleFrom(
           // side: BorderSide(color: Colors.grey.shade300),
           backgroundColor: widget.backgroundColor,

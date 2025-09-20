@@ -12,8 +12,41 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? _phoneError;
+  String? _passwordError;
 
   @override
+
+  void initState() {
+    super.initState();
+    // Add listeners for real-time validation
+    _phoneController.addListener(_validatePhone);
+    _passwordController.addListener(_validatePassword);
+  }
+
+  void _validatePhone() {
+    setState(() {
+      String phone = _phoneController.text.trim();
+      _phoneError = phone.isEmpty
+          ? "Mobile number cannot be empty"
+          : phone.length < 11
+          ? "Please enter a valid mobile number"
+          : null;
+    });
+  }
+
+  void _validatePassword() {
+    setState(() {
+      String password = _passwordController.text.trim();
+      _passwordError = password.isEmpty
+          ? "Password cannot be empty"
+          : password.length < 6
+          ? "Password must be at least 6 characters"
+          : null;
+    });
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -45,6 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   prefixIcon: Icons.phone,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  errorText: _phoneError,
                 ),
                 SizedBox(height: 10),
 
@@ -56,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   isPassword: true,
                   controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
+                  errorText: _passwordError,
                 ),
 
                 SizedBox(height: 10),
@@ -87,6 +122,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   backgroundColor: Colors.black,
                   textColor: Colors.white,
                   icon: Icons.apple,
+                  onPressed: () {
+                    _validatePhone();
+                    _validatePassword();
+                  },
                 ),
                 SizedBox(height: 10),
 
