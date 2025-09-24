@@ -22,6 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
 
+  // function to validate phonenumber
   void initState() {
     super.initState();
     // Add listeners for real-time validation
@@ -29,6 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.addListener(_validatePassword);
   }
 
+  // function to validate password
   void _validateName() {
     setState(() {
       String name = _nameController.text.trim();
@@ -36,6 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  // function to validate email
   void _validateEmail() {
     setState(() {
       String email = _emailController.text.trim();
@@ -47,6 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  // function to validate name
   void _validatePhone() {
     setState(() {
       String phone = _phoneController.text.trim();
