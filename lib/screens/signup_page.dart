@@ -36,6 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  // function to validate email
   void _validateEmail() {
     setState(() {
       String email = _emailController.text.trim();
