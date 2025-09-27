@@ -22,8 +22,8 @@ class AuthService {
   // Function to register a new user on the backend service
   // Returns: true if signup is successful, false otherwise
   Future<bool> signup(String name, String email, String phone, String password) async {
-    // Construct the signup URL by appending /signup to the base URL
-    final url = Uri.parse('$baseUrl/signup');
+    // Construct the signup URL by appending /api/auth/signup to the base URL
+    final url = Uri.parse('$baseUrl/api/auth/signup');
 
     // Make a POST request to the backend with user input serialized as JSON
     final response = await http.post(
@@ -55,8 +55,8 @@ class AuthService {
   // Function to authenticate an existing user against the backend service
   // Returns: true if login is successful, false otherwise
   Future<bool> login(String email, String password) async {
-    // Build the complete login URL by appending /login to the base URL
-    final url = Uri.parse('$baseUrl/login');
+    // Build the complete login URL by appending /api/auth/login to the base URL
+    final url = Uri.parse('$baseUrl/api/auth/login');
 
     // Make a POST request to backend with login credentials as JSON
     final response = await http.post(
