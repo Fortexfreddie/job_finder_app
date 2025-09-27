@@ -20,7 +20,8 @@ class AuthService {
 
   // ====================== SIGNUP ======================
   // Function to register a new user on the backend service
-  Future<void> signup(String name, String email, String phone, String password) async {
+  // Returns: true if signup is successful, false otherwise
+  Future<bool> signup(String name, String email, String phone, String password) async {
     // Construct the signup URL by appending /signup to the base URL
     final url = Uri.parse('$baseUrl/signup');
 
@@ -42,15 +43,18 @@ class AuthService {
     if (response.statusCode == 201) {
       // 201 Created → The backend confirms that the new user record has been successfully added
       logger.i("Signup success: ${response.body}");
+      return true; // Return true so UI can proceed (e.g., navigate to login page)
     } else {
       // Any other status code indicates signup failure (invalid data, existing user, etc.)
       logger.e("Signup failed: ${response.body}");
+      return false; // Return false so UI can show error popup
     }
   }
 
   // ====================== LOGIN ======================
   // Function to authenticate an existing user against the backend service
-  Future<void> login(String email, String password) async {
+  // Returns: true if login is successful, false otherwise
+  Future<bool> login(String email, String password) async {
     // Build the complete login URL by appending /login to the base URL
     final url = Uri.parse('$baseUrl/login');
 
@@ -74,9 +78,11 @@ class AuthService {
 
       // In practice, you should securely store this token in SharedPreferences or secure storage
       // to persist login sessions and authorize future requests.
+      return true; // Login succeeded
     } else {
       // If not 200, then login failed (wrong credentials, user not found, etc.)
       logger.e("Login failed: ${response.body}");
+      return false; // Login failed
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import './signup_page.dart';
+import '../services/auth_service.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -11,6 +12,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final authService = AuthService();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _phoneError;
@@ -102,6 +104,14 @@ class _SignInPageState extends State<SignInPage> {
                   text: "Continue",
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
+                  onPressed: () {
+                    _validatePhone();
+                    _validatePassword();
+                    authService.login(
+                      _phoneController.text.trim(),
+                      _passwordController.text.trim(),
+                    );
+                  },
                 ),
 
                 SizedBox(height: 20),

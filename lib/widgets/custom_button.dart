@@ -6,6 +6,7 @@ class CustomButton extends StatefulWidget {
   final Color textColor;
   final IconData? icon;
   final VoidCallback? onPressed;
+  final bool isLoading;
 
   const CustomButton({
     super.key,
@@ -14,6 +15,7 @@ class CustomButton extends StatefulWidget {
     this.textColor = Colors.white,
     this.icon,
     this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -35,7 +37,18 @@ class _CustomButtonState extends State<CustomButton> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        icon: widget.icon != null ? Icon(widget.icon, color: widget.textColor) : Container(),
+        icon: widget.isLoading
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 2,
+                ),
+              )
+            : widget.icon != null
+            ? Icon(widget.icon, color: widget.textColor)
+            : Container(),
         label: Text(
           widget.text,
           style: TextStyle(color: widget.textColor, fontSize: 16),

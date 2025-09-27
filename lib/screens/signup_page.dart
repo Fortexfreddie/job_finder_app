@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import './signin_page.dart';
+import '../services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -11,6 +12,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final authService = AuthService();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -19,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String? _passwordError;
   String? _nameError;
   String? _emailError;
+  bool _isLoading = false; // track the signup
 
   @override
 
@@ -146,15 +149,57 @@ class _SignUpPageState extends State<SignUpPage> {
                   text: "Continue",
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
-                  onPressed: () {
+                  isLoading: _isLoading,
+                  onPressed: _isLoading ? null : () async {
                     _validatePhone();
                     _validatePassword();
                     _validateName();
                     _validateEmail();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignInPage()),
-                    );
+
+                    setState(() => _isLoading = true);
+
+                    try {
+                      // Wait for signup to complete
+                      final response = await authService.signup(
+                        _nameController.text.trim(),
+                        _emailController.text.trim(),
+                        _phoneController.text.trim(),
+                        _passwordController.text.trim(),
+                      );
+
+                      // Check if widget is still mounted before using context
+                      if (!mounted) return;
+
+                      // Handle successful signup
+                      if (response) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Signup successful! Please sign in.'),
+                          ),
+                        );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInPage(),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      // Check if widget is still mounted before using context
+                      if (!mounted) return;
+
+                      // Show error message from backend or fallback
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Signup failed: ${e.toString()}'),
+                        ),
+                      );
+                    } finally {
+                      // Update loading state only if mounted
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                      }
+                    }
                   },
                 ),
 
