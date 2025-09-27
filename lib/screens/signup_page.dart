@@ -151,6 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   textColor: Colors.white,
                   isLoading: _isLoading,
                   onPressed: _isLoading ? null : () async {
+                    // Run local validations before hitting backend
                     _validatePhone();
                     _validatePassword();
                     _validateName();
@@ -159,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     setState(() => _isLoading = true);
 
                     try {
-                      // Wait for signup to complete
+                      // Wait for signup to complete (returns { "success": bool, "message": String })
                       final response = await authService.signup(
                         _nameController.text.trim(),
                         _emailController.text.trim(),
@@ -170,38 +171,37 @@ class _SignUpPageState extends State<SignUpPage> {
                       // Check if widget is still mounted before using context
                       if (!mounted) return;
 
-                      // Handle successful signup
-                      if (response) {
+                      if (response["success"] == true) {
+                        // Signup success
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Signup successful! Please sign in.'),
-                          ),
+                          SnackBar(content: Text(response["message"] ?? "Signup successful! Please sign in.")),
                         );
+
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignInPage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                        );
+                      } else {
+                        // Signup failed (backend error like "User already exists")
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response["message"] ?? "Signup failed.")),
                         );
                       }
                     } catch (e) {
-                      // Check if widget is still mounted before using context
+                      // Exception (network error, timeout, etc.)
                       if (!mounted) return;
-
-                      // Show error message from backend or fallback
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Signup failed: ${e.toString()}'),
-                        ),
+                        SnackBar(content: Text("An error occurred: $e")),
                       );
                     } finally {
-                      // Update loading state only if mounted
+                      // Reset loading state
                       if (mounted) {
                         setState(() => _isLoading = false);
                       }
                     }
                   },
                 ),
+
 
                 SizedBox(height: 20),
                 Row(

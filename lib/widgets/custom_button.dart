@@ -28,7 +28,7 @@ class _CustomButtonState extends State<CustomButton> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: widget.onPressed ?? () {},
+        onPressed: widget.isLoading ? null : widget.onPressed,
         style: ElevatedButton.styleFrom(
           // side: BorderSide(color: Colors.grey.shade300),
           backgroundColor: widget.backgroundColor,

@@ -13,27 +13,28 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final authService = AuthService();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _phoneError;
+  String? _emailError;
   String? _passwordError;
+  bool _isLoading = false; // track the login
 
   @override
 
   void initState() {
     super.initState();
     // Add listeners for real-time validation
-    _phoneController.addListener(_validatePhone);
+    _emailController.addListener(_validateEmail);
     _passwordController.addListener(_validatePassword);
   }
 
-  void _validatePhone() {
+  void _validateEmail() {
     setState(() {
-      String phone = _phoneController.text.trim();
-      _phoneError = phone.isEmpty
-          ? "Mobile number cannot be empty"
-          : phone.length < 11 || phone.length > 11
-          ? "Please enter a valid mobile number"
+      String email = _emailController.text.trim();
+      _emailError = email.isEmpty
+          ? "Email cannot be empty"
+          : !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)
+          ? "Please enter a valid email"
           : null;
     });
   }
@@ -77,13 +78,13 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SizedBox(height: 10),
 
-                // Phone Number TextField
+                // Email TextField
                 CustomTextField(
-                  hintText: "Enter your phone",
-                  prefixIcon: Icons.phone,
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  errorText: _phoneError,
+                  hintText: "Enter your email",
+                  prefixIcon: Icons.email,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  errorText: _emailError,
                 ),
                 SizedBox(height: 10),
 
@@ -104,15 +105,57 @@ class _SignInPageState extends State<SignInPage> {
                   text: "Continue",
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
-                  onPressed: () {
-                    _validatePhone();
+                  isLoading: _isLoading,
+                  onPressed: _isLoading ? null : () async {
+                    // Run local validations before hitting backend
+                    _validateEmail();
                     _validatePassword();
-                    authService.login(
-                      _phoneController.text.trim(),
-                      _passwordController.text.trim(),
-                    );
+                    
+                    setState(() => _isLoading = true);
+
+                    try {
+                      // Wait for login to complete (returns { "success": bool, "message": String })
+                      final response = await authService.login(
+                        _emailController.text.trim(),
+                        _passwordController.text.trim(),
+                      );
+
+                      // Check if widget is still mounted before using context
+                      if (!mounted) return;
+
+                      // Handle response
+                      if (response["success"] == true) {
+                        // Login success
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response["message"] ?? "Login successful!")),
+                        );
+
+                        // Navigate to next page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                        );
+                      } else {
+                        // Login failed (backend error like "Invalid password")
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response["message"] ?? "Login failed.")),
+                        );
+                      }
+                    } catch (e) {
+                      // Exception (network error, timeout, etc.)
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("An error occurred: $e")),
+                      );
+                    } finally {
+                      // Reset loading state
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                      }
+                    }
                   },
                 ),
+
 
                 SizedBox(height: 20),
                 Row(
@@ -136,7 +179,7 @@ class _SignInPageState extends State<SignInPage> {
                   textColor: Colors.white,
                   icon: Icons.apple,
                   onPressed: () {
-                    _validatePhone();
+                    _validateEmail();
                     _validatePassword();
                   },
                 ),
