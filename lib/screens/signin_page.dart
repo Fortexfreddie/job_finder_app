@@ -3,6 +3,7 @@ import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import './signup_page.dart';
 import '../services/auth_service.dart';
+import './home/home_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -110,7 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                     // Run local validations before hitting backend
                     _validateEmail();
                     _validatePassword();
-                    
+
                     setState(() => _isLoading = true);
 
                     try {
@@ -133,7 +134,7 @@ class _SignInPageState extends State<SignInPage> {
                         // Navigate to next page
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                          MaterialPageRoute(builder: (context) => const HomePage()),
                         );
                       } else {
                         // Login failed (backend error like "Invalid password")

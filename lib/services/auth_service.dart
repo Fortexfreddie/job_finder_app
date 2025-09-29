@@ -10,6 +10,8 @@ import 'package:logger/logger.dart';
 // Import flutter_dotenv so we can safely read sensitive values like API URLs from .env
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class AuthService {
   // Logger instance for printing info/errors in a readable structured way
   final logger = Logger();
@@ -78,6 +80,9 @@ class AuthService {
     // Build the complete login URL by appending /api/auth/login to the base URL
     final url = Uri.parse('$baseUrl/api/auth/login');
 
+    // For JWT storage
+    final storage = FlutterSecureStorage();
+
     try {
       // Make a POST request to backend with login credentials as JSON
       final response = await http.post(
@@ -98,8 +103,10 @@ class AuthService {
         final data = jsonDecode(response.body);
         logger.i("Login success, token: ${data['token']}");
 
-        // In practice, you should securely store this token in SharedPreferences or secure storage
-        // to persist login sessions and authorize future requests.
+        final token = data['token']; // Extract the JWT token from the response
+        await storage.write(key: 'jwt_token', value: token); // Save the token securely
+        logger.i("Token saved: $token"); // Log the saved token for debugging
+
         return {
           "success": true,
           "message": "Login successful"
