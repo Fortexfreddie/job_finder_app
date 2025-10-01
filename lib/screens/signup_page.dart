@@ -23,6 +23,17 @@ class _SignUpPageState extends State<SignUpPage> {
   String? _emailError;
   bool _isLoading = false; // track the signup
 
+
+  @override
+  void dispose() {
+    // Always dispose controllers to free memory
+    _emailController.dispose();
+    _phoneController.dispose();
+    _nameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
 
   void initState() {

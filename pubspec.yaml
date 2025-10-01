@@ -72,6 +72,7 @@ flutter:
   assets:
     - assets/image_1.1.png
     - assets/google.png
+    - assets/image_1.jpg
     - .env
   #   - images/a_dot_ham.jpeg
 

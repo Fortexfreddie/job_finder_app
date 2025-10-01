@@ -4,6 +4,10 @@ import '../widgets/custom_button.dart';
 import './signup_page.dart';
 import '../services/auth_service.dart';
 import './home/home_page.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert'; // For JWT decoding
+import 'package:logger/logger.dart';
+
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -19,6 +23,16 @@ class _SignInPageState extends State<SignInPage> {
   String? _emailError;
   String? _passwordError;
   bool _isLoading = false; // track the login
+  final storage = FlutterSecureStorage();
+  final logger = Logger();
+
+  @override
+  void dispose() {
+    // Always dispose controllers to free memory
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
 
@@ -27,6 +41,48 @@ class _SignInPageState extends State<SignInPage> {
     // Add listeners for real-time validation
     _emailController.addListener(_validateEmail);
     _passwordController.addListener(_validatePassword);
+    _checkTokenAndRedirect(); // Check token and decode on page load
+  }
+
+  Future<void> _checkTokenAndRedirect() async {
+    final token = await storage.read(key: 'jwt_token'); // Read saved token
+    if (token != null) {
+      // Decode and validate token
+      if (await _isTokenValid(token)) {
+        // Navigate to HomePage if valid
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      } else {
+        // Invalid or expired token, clear it
+        await storage.delete(key: 'jwt_token');
+        if (!mounted) return;
+        logger.e("Invalid or expired token cleared");
+      }
+    }
+  }
+
+  Future<bool> _isTokenValid(String token) async {
+    try {
+      // Decode JWT to check expiration (header.payload.signature)
+      final parts = token.split('.');
+      if (parts.length != 3) return false; // Invalid JWT format
+      final payload = jsonDecode(
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+      );
+      final exp =
+          payload['exp'] as int?; // Expiration timestamp (seconds since epoch)
+      if (exp == null) return false; // No expiration claim
+      final now =
+          DateTime.now().millisecondsSinceEpoch ~/
+          1000; // Current time in seconds
+      return exp > now; // Token is valid if exp is in the future
+    } catch (e) {
+      logger.e("Token validation error: $e");
+      return false;
+    }
   }
 
   void _validateEmail() {
