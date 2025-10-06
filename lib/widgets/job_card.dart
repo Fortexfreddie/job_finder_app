@@ -79,36 +79,61 @@ class _JobCardState extends State<JobCard> {
                 selectedIndex = index;
               });
             },
-            child: Container(
-              padding: EdgeInsets.all(16),
-              width: 250,
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.blue[50] : Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isSelected ? Colors.blue : Colors.grey.shade300,
-                  width: 1.2,
+            child: IntrinsicWidth(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                // width: 250,
+                constraints: BoxConstraints(minWidth: 300, maxWidth: 400),
+                decoration: BoxDecoration(
+                  color: isSelected ? Colors.blue[50] : Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isSelected ? Colors.blue : Colors.grey.shade300,
+                    width: 1.2,
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircleAvatar(
-                        radius: 22,
-                        backgroundImage: NetworkImage(job["logoUrl"]),
-                      ),
-                      Icon(
-                        job["isBookmarked"]
-                            ? Icons.bookmark_added_sharp
-                            : Icons.bookmark_add_outlined,
-                        color: job["isBookmarked"] ? Colors.red : Colors.grey,
-                      ),
-                    ],
-                  )
-                ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 22,
+                              backgroundImage: NetworkImage(job["logoUrl"]),
+                            ),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  job["title"],
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                // SizedBox(height: 2),
+                                Text(
+                                  job["company"],
+                                  style: TextStyle(color: Colors.grey[600]),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          job["isBookmarked"]
+                              ? Icons.bookmark_added_sharp
+                              : Icons.bookmark_add_outlined,
+                          color: job["isBookmarked"] ? Colors.red : Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
