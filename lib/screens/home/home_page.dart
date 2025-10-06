@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert'; // For JWT decoding
 import '../signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
+import '../../widgets/job_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   final storage = FlutterSecureStorage();
   // bool _isLoading = false;
   final logger = Logger();
+  String? userName;
+  // dynamic payloads;
 
   @override
   void initState() {
@@ -56,6 +59,11 @@ class _HomePageState extends State<HomePage> {
       final payload = jsonDecode(
         utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
       );
+      setState(() {
+        userName = payload['name'] ?? "User"; // fallback if null
+        // payloads = payload;
+      });
+      logger.i("Logged in as $userName");
       final exp =
           payload['exp'] as int?; // Expiration timestamp (seconds since epoch)
       if (exp == null) return false; // No expiration claim
@@ -112,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Hello Kemi 👋",
+                  "Hello ${userName ?? "kemi"} 👋",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -147,8 +155,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+
+                // Category list
+                SizedBox(height: 10),
                 CategoryList(),
                 SizedBox(height: 20),
+
+                // job cards
+                JobCard(),
+                SizedBox(height: 20),
+
               ],
             ),
           ),
