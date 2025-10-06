@@ -6,6 +6,7 @@ import 'dart:convert'; // For JWT decoding
 import '../signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
 import '../../widgets/job_card.dart';
+import '../../widgets/nearby_jobs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -76,22 +77,6 @@ class _HomePageState extends State<HomePage> {
       return false;
     }
   }
-
-  // Dummy jobs for now, later this could come from an API
-  final List<Map<String, String>> jobs = [
-    {
-      "title": "Senior UI Designer",
-      "location": "San Francisco, USA",
-      "salary": "\$2500/mo",
-    },
-    {
-      "title": "Product Manager",
-      "location": "New York, USA",
-      "salary": "\$3000/mo",
-    },
-  ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +150,31 @@ class _HomePageState extends State<HomePage> {
                 JobCard(),
                 SizedBox(height: 20),
 
+                // Nearby jobs
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Nearby jobs",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Show All",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue,
+                        decorationThickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Nearby jobs
+                NearbyJobs(),
               ],
             ),
           ),
