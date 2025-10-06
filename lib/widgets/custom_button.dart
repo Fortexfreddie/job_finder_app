@@ -7,6 +7,9 @@ class CustomButton extends StatefulWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final double width;
+  // final double height;
+  final double v_padding;
 
   const CustomButton({
     super.key,
@@ -16,6 +19,9 @@ class CustomButton extends StatefulWidget {
     this.icon,
     this.onPressed,
     this.isLoading = false,
+    this.width = double.infinity,
+    // this.height = 100,
+    this.v_padding = 15,
   });
 
   @override
@@ -26,13 +32,14 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      // height: widget.height,
+      width: widget.width,
       child: ElevatedButton.icon(
         onPressed: widget.isLoading ? null : widget.onPressed,
         style: ElevatedButton.styleFrom(
           // side: BorderSide(color: Colors.grey.shade300),
           backgroundColor: widget.backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: EdgeInsets.symmetric(vertical: widget.v_padding),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
