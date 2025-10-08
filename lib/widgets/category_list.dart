@@ -38,7 +38,7 @@ class _CategoryListState extends State<CategoryList> {
               });
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected ? Colors.blue[50] : Colors.grey[100],
                 borderRadius: BorderRadius.circular(25),
@@ -60,7 +60,7 @@ class _CategoryListState extends State<CategoryList> {
                       size: 18,
                     ),
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Text(
                     category["name"],
                     style: TextStyle(

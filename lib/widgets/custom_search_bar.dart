@@ -23,11 +23,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       controller: _searchController,
       decoration: InputDecoration(
         hintText: "Search for jobs...",
-        prefixIcon: Icon(Icons.search),
-        suffixIcon: Icon(Icons.tune),
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: const Icon(Icons.tune),
         filled: true,
         fillColor: Colors.grey[200],
-        contentPadding: EdgeInsets.symmetric(vertical: 15),
+        contentPadding: const EdgeInsets.symmetric(vertical: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none, // removes hard border

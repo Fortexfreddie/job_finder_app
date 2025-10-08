@@ -97,21 +97,21 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                   child: Image(
-                    image: AssetImage("assets/image_1.1.png"),
+                    image: const AssetImage("assets/image_1.1.png"),
                     height: 180,
                     width: 180,
                   ),
                 ),
 
                 // SizedBox(height: 5),
-                Text(
+                const Text(
                   "Sign Up",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Fullname TextField
                 CustomTextField(
@@ -121,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.name,
                   errorText: _nameError,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Email TextField
                 CustomTextField(
@@ -131,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.emailAddress,
                   errorText: _emailError,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Phone Number TextField
                 CustomTextField(
@@ -141,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.phone,
                   errorText: _phoneError,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Password TextField
                 CustomTextField(
@@ -214,21 +214,21 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
 
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                       child: Divider(thickness: 1, color: Colors.grey[300]),
                     ),
-                    SizedBox(width: 10),
-                    Text("Or"),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
+                    const Text("Or"),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Divider(thickness: 1, color: Colors.grey[300]),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Register with Apple button
                 CustomButton(
                   text: "Register with Apple",
@@ -236,7 +236,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   textColor: Colors.white,
                   icon: Icons.apple,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Register with Google button with OutlinedButton.icon
                 SizedBox(
@@ -255,20 +255,20 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                       width: 20,
                     ),
-                    label: Text(
+                    label: const Text(
                       "Register with Google",
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Don't have an account? Sign Up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Have an account?",
                       style: TextStyle(
                         color: Colors.black,
@@ -276,7 +276,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
                         // Navigator.pop(context);
@@ -285,7 +285,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           MaterialPageRoute(builder: (context) => SignInPage()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign in",
                         style: TextStyle(
                           color: Colors.blue,

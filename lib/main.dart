@@ -17,7 +17,7 @@ class JobFinderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Job Finder',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: SignInPage(),
+      home: const SignInPage(),
     );
   }
 }

@@ -119,21 +119,21 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                   child: Image(
-                    image: AssetImage("assets/image_1.1.png"),
+                    image: const AssetImage("assets/image_1.1.png"),
                     height: 300,
                     width: 300,
                   ),
                 ),
 
                 // SizedBox(height: 5),
-                Text(
+                const Text(
                   "Sign In",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Email TextField
                 CustomTextField(
@@ -143,7 +143,7 @@ class _SignInPageState extends State<SignInPage> {
                   keyboardType: TextInputType.emailAddress,
                   errorText: _emailError,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Password TextField
                 CustomTextField(
@@ -156,7 +156,7 @@ class _SignInPageState extends State<SignInPage> {
                   errorText: _passwordError,
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // continue button
                 CustomButton(
                   text: "Continue",
@@ -214,21 +214,21 @@ class _SignInPageState extends State<SignInPage> {
                 ),
 
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                       child: Divider(thickness: 1, color: Colors.grey[300]),
                     ),
-                    SizedBox(width: 10),
-                    Text("Or"),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
+                    const Text("Or"),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Divider(thickness: 1, color: Colors.grey[300]),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Register with Apple button
                 CustomButton(
                   text: "Register with Apple",
@@ -240,7 +240,7 @@ class _SignInPageState extends State<SignInPage> {
                     _validatePassword();
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Register with Google button with OutlinedButton.icon
                 SizedBox(
@@ -259,20 +259,20 @@ class _SignInPageState extends State<SignInPage> {
                       height: 20,
                       width: 20,
                     ),
-                    label: Text(
+                    label: const Text(
                       "Register with Google",
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Don't have an account? Sign Up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account?",
                       style: TextStyle(
                         color: Colors.black,
@@ -280,7 +280,7 @@ class _SignInPageState extends State<SignInPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -289,7 +289,7 @@ class _SignInPageState extends State<SignInPage> {
                         );
                         // Navigator.pop(context);
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign up",
                         style: TextStyle(
                           color: Colors.blue,
