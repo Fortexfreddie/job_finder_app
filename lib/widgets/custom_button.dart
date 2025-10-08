@@ -45,10 +45,10 @@ class _CustomButtonState extends State<CustomButton> {
           ),
         ),
         icon: widget.isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(
+                child: const CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   strokeWidth: 2,
                 ),

@@ -11,13 +11,13 @@ class NearbyJobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12.0),
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: 5.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 10,
           ),
@@ -31,7 +31,22 @@ class NearbyJobCard extends StatelessWidget {
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(12.0),
             ),
-            child: const Icon(Icons.business_center, color: Colors.indigo),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.0),
+              child: Image.network(
+                job.iconUrl,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  // If the image fails to load, show the original icon as a fallback
+                  return const Icon(
+                    Icons.business_center,
+                    color: Colors.indigo,
+                  );
+                },
+              ),
+            ),
           ),
           const SizedBox(width: 16.0),
           Expanded(
