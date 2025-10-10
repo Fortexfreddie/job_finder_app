@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/profile_text_field.dart';
 import '../../widgets/custom_tab_bar.dart';
-import '../../widgets/bottom_nav.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -131,8 +130,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      // Bottom Navigation Bar
-      bottomNavigationBar: const BottomNav(),
     );
   }
 }

@@ -7,7 +7,6 @@ import '../signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
 import '../../widgets/job_card.dart';
 import '../../widgets/nearby_jobs.dart';
-import '../../widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,58 +25,100 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _checkTokenExpiration(); // Check token on page load
+    _loadUserData(); // Load user data when the page starts
   }
 
-  Future<void> _checkTokenExpiration() async {
+  Future<void> _loadUserData() async {
     final token = await storage.read(key: 'jwt_token');
-    if (token != null) {
-      if (!await _isTokenValid(token)) {
-        // Token expired or invalid, clear and logout
-        await storage.delete(key: 'jwt_token');
-        if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignInPage()),
-        );
-        logger.e("Token expired, logged out");
+
+    if (token == null) {
+      logger.e("No token found. Redirecting to sign-in.");
+      _logout();
+      return;
+    }
+
+    try {
+      final parts = token.split('.');
+      if (parts.length != 3) {
+        logger.e("Invalid token format.");
+        _logout();
+        return;
       }
-    } else {
-      // No token, redirect to sign-in
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
+
+      final payloadString = utf8.decode(
+        base64Url.decode(base64Url.normalize(parts[1])),
       );
-      logger.e("No token found, redirected to sign-in");
+      final payload = jsonDecode(payloadString) as Map<String, dynamic>;
+
+      // Check for token expiration
+      final exp = payload['exp'] as int?;
+      final nowInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+      if (exp == null || exp <= nowInSeconds) {
+        logger.e("Token has expired.");
+        _logout();
+        return;
+      }
+
+      if (mounted) {
+        // Check if the widget is still visible
+        setState(() {
+          userName = payload['name'] as String? ?? "User";
+        });
+        logger.i("Successfully loaded user: $userName");
+      }
+    } catch (e) {
+      logger.e("Failed to decode token: $e");
+      _logout();
     }
   }
 
-  Future<bool> _isTokenValid(String token) async {
-    try {
-      // Decode JWT to check expiration (assuming standard JWT format: header.payload.signature)
-      final parts = token.split('.');
-      if (parts.length != 3) return false; // Invalid JWT format
-      final payload = jsonDecode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
-      );
-      setState(() {
-        userName = payload['name'] ?? "User"; // fallback if null
-        // payloads = payload;
-      });
-      logger.i("Logged in as $userName");
-      final exp =
-          payload['exp'] as int?; // Expiration timestamp (seconds since epoch)
-      if (exp == null) return false; // No expiration claim
-      final now =
-          DateTime.now().millisecondsSinceEpoch ~/
-          1000; // Current time in seconds
-      return exp > now; // Token is valid if exp is in the future
-    } catch (e) {
-      logger.e("Token validation error: $e");
-      return false;
-    }
+  Future<void> _logout() async {
+    await storage.delete(key: 'jwt_token');
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const SignInPage()),
+    );
   }
+
+
+  // Show confirmation dialog before logging out
+  Future<void> _showLogoutDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap a button
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text('Are you sure you want to log out?')],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red, // Make the text red
+              ),
+              child: const Text('Logout'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout(); // Call your existing logout function
+              },
+            ),
+          ],
+        );
+      },
+    );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +129,9 @@ class _HomePageState extends State<HomePage> {
       //     CircleAvatar(backgroundImage: AssetImage("assets/image_1.jpg")),
       //   ],
       // ),
+      drawer: MyDrawer(
+        onLogoutTapped: _showLogoutDialog, // Pass the dialog function here
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -103,7 +147,17 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.menu),
+                    Builder(
+                      builder: (context) {
+                        return IconButton(
+                          icon: const Icon(Icons.menu, color: Colors.grey),
+                          onPressed: () {
+                            // This command opens the drawer
+                            Scaffold.of(context).openDrawer();
+                          },
+                        );
+                      },
+                    ),
                     CircleAvatar(
                       backgroundImage: AssetImage("assets/image_1.jpg"),
                     ),
@@ -186,8 +240,58 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      // Bottom Navigation Bar
-      bottomNavigationBar: const BottomNav(),
+    );
+  }
+}
+
+class MyDrawer extends StatelessWidget {
+  final VoidCallback onLogoutTapped;
+
+  const MyDrawer({super.key, required this.onLogoutTapped});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Text(
+              'Job Finder',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            onTap: () {
+              // Just close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          // Add other items like Settings or Profile here if you want
+          // ListTile(
+          //   leading: const Icon(Icons.settings),
+          //   title: const Text('Settings'),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text('Logout', style: TextStyle(color: Colors.red)),
+            onTap: () {
+              // 1. Close the drawer first
+              Navigator.pop(context);
+              // 2. Then call the logout dialog function
+              onLogoutTapped();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

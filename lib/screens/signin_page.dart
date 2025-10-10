@@ -3,7 +3,7 @@ import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import './signup_page.dart';
 import '../services/auth_service.dart';
-import 'pages/home_page.dart';
+import './app_shell.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert'; // For JWT decoding
 import 'package:logger/logger.dart';
@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
         if (!mounted) return;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const AppShell()),
         );
       } else {
         // Invalid or expired token, clear it
@@ -183,14 +183,16 @@ class _SignInPageState extends State<SignInPage> {
                       // Handle response
                       if (response["success"] == true) {
                         // Login success
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(response["message"] ?? "Login successful!")),
-                        );
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(content: Text(response["message"] ?? "Login successful!")),
+                        // );
 
                         // Navigate to next page
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const HomePage()),
+                                MaterialPageRoute(
+                                  builder: (context) => const AppShell(),
+                                ),
                         );
                       } else {
                         // Login failed (backend error like "Invalid password")
