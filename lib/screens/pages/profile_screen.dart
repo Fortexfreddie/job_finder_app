@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/profile_text_field.dart';
 import '../../widgets/custom_tab_bar.dart';
+import '../app_shell.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,7 +22,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          // onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AppShell()),
+          ),
         ),
         title: const Text(
           'My profile',

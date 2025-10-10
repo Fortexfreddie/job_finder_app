@@ -138,10 +138,8 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // The body now shows the correct page based on the selected index
       body: _pages[_getPageIndex(_selectedIndex)],
       
-      // The bottom navigation bar UI is built directly here
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Container(
@@ -151,7 +149,6 @@ class _AppShellState extends State<AppShell> {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                // FIX: Use .withOpacity() for transparency
                 color: Colors.grey.withValues(alpha: 0.2),
                 spreadRadius: 2,
                 blurRadius: 6,
@@ -164,7 +161,6 @@ class _AppShellState extends State<AppShell> {
             children: [
               IconButton(
                 icon: const Icon(Icons.home),
-                // Color changes based on the state variable
                 color: _selectedIndex == 0 ? Colors.blue : Colors.grey,
                 // onPressed calls the function that updates the state
                 onPressed: () => _onItemTapped(0),
