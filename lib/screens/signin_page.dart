@@ -3,7 +3,7 @@ import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import './signup_page.dart';
 import '../services/auth_service.dart';
-import './home/home_page.dart';
+import 'pages/home_page.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert'; // For JWT decoding
 import 'package:logger/logger.dart';

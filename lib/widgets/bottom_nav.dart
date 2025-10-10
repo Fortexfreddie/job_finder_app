@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/pages/profile_screen.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -55,7 +56,14 @@ class _BottomNavState extends State<BottomNav> {
             IconButton(
               icon: const Icon(Icons.person_outline),
               color: Colors.grey,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                );
+              },
             ),
             IconButton(
               icon: const Icon(Icons.settings_outlined),
