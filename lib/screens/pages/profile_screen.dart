@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/profile_text_field.dart';
 import '../../widgets/custom_tab_bar.dart';
+import '../../widgets/bottom_nav.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -119,11 +120,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     });
                   },
                 ),
+
+                const SizedBox(height: 32),
+
+                _selectedTabIndex == 0
+                    ? _buildPersonalInfoForm()
+                    : _buildTeamsInfo(),
               ],
             ),
           ),
         ),
       ),
+      // Bottom Navigation Bar
+      bottomNavigationBar: const BottomNav(),
     );
   }
+}
+
+// _buildPersonalInfoForm() and _buildTeamsInfo() methods.
+Widget _buildPersonalInfoForm() {
+  return const Column(
+    children: [
+      ProfileTextField(label: 'Name', value: 'Esther Kemi'),
+      ProfileTextField(label: 'Email', value: 'estherkemi123@gmail.com'),
+      ProfileTextField(label: 'Phone', value: '+234 90 545 89 40'),
+      ProfileTextField(
+        label: 'Password',
+        value: '********',
+        icon: Icons.visibility,
+      ),
+      ProfileTextField(
+        label: 'Location',
+        value: 'Los Angeles, California, USA',
+      ),
+    ],
+  );
+}
+
+Widget _buildTeamsInfo() {
+  return const Center(
+    child: Text(
+      'Teams Information',
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  );
 }
