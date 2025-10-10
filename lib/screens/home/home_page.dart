@@ -91,7 +91,12 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(
+              left: 16.0,
+              right: 16.0,
+              top: 16.0,
+              bottom: 0.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -176,16 +181,13 @@ class _HomePageState extends State<HomePage> {
 
                 // Nearby jobs
                 NearbyJobs(),
-
-                SizedBox(height: 2),
-
-                // Bottom Navigation Bar
-                BottomNav(),
               ],
             ),
           ),
-        )
+        ),
       ),
+      // Bottom Navigation Bar
+      bottomNavigationBar: const BottomNav(),
     );
   }
 }
