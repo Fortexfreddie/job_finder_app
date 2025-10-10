@@ -7,6 +7,7 @@ import '../signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
 import '../../widgets/job_card.dart';
 import '../../widgets/nearby_jobs.dart';
+import '../../widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -175,6 +176,11 @@ class _HomePageState extends State<HomePage> {
 
                 // Nearby jobs
                 NearbyJobs(),
+
+                SizedBox(height: 2),
+
+                // Bottom Navigation Bar
+                BottomNav(),
               ],
             ),
           ),
