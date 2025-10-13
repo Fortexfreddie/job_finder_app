@@ -7,6 +7,7 @@ import '../signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
 import '../../widgets/job_card.dart';
 import '../../widgets/nearby_jobs.dart';
+import './profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   // bool _isLoading = false;
   final logger = Logger();
   String? userName;
-  // dynamic payloads;
+  Map<String, dynamic>? payloads;
 
   @override
   void initState() {
@@ -64,6 +65,7 @@ class _HomePageState extends State<HomePage> {
         // Check if the widget is still visible
         setState(() {
           userName = payload['name'] as String? ?? "User";
+          this.payloads = payload;
         });
         logger.i("Successfully loaded user: $userName");
       }
@@ -131,6 +133,7 @@ class _HomePageState extends State<HomePage> {
       // ),
       drawer: MyDrawer(
         onLogoutTapped: _showLogoutDialog, // Pass the dialog function here
+        payloads: payloads,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -246,21 +249,45 @@ class _HomePageState extends State<HomePage> {
 
 class MyDrawer extends StatelessWidget {
   final VoidCallback onLogoutTapped;
+  final Map<String, dynamic>? payloads;
 
-  const MyDrawer({super.key, required this.onLogoutTapped});
+  const MyDrawer({super.key, required this.onLogoutTapped, this.payloads});
 
   @override
   Widget build(BuildContext context) {
+    final String userName = payloads?['name'] as String? ?? 'Guest';
+    final String userEmail = payloads?['email'] as String? ?? 'guest@gmail.com';
+
+
     return Drawer(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Text(
-              'Job Finder',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.blue),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage("assets/image_1.jpg"),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  userEmail,
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ],
             ),
           ),
           ListTile(
@@ -271,14 +298,24 @@ class MyDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          // Add other items like Settings or Profile here if you want
-          // ListTile(
-          //   leading: const Icon(Icons.settings),
-          //   title: const Text('Settings'),
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Profile'),
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+            },
+          ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
