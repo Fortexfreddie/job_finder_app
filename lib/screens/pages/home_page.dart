@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-// Testing the extension, just say yes if it works
+// Testing the extension, just say yes if it workss
 class _HomePageState extends State<HomePage> {
   final storage = FlutterSecureStorage();
   // bool _isLoading = false;
