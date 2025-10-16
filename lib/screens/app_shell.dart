@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert'; // For JWT decoding
 import './signin_page.dart'; // Import SignInPage for logout redirect
 import 'package:logger/logger.dart';
+import './pages/settings_page.dart';
 
 class ChartPage extends StatelessWidget {
   const ChartPage({super.key});
@@ -17,16 +18,16 @@ class ChartPage extends StatelessWidget {
   }
 }
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(child: Text('Settings Page', style: TextStyle(fontSize: 24))),
-    );
-  }
-}
+// class SettingsPage extends StatelessWidget {
+//   const SettingsPage({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       backgroundColor: Colors.white,
+//       body: Center(child: Text('Settings Page', style: TextStyle(fontSize: 24))),
+//     );
+//   }
+// }
 
 
 
