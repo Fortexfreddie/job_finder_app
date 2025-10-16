@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_shell.dart';
+import './profile_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -49,13 +50,15 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              /* More options action */
+            },
           ),
         ],
       ),
       body: ListView(
         children: [
-          // --- ACCOUNT SECTION ---
+          // ACCOUNT SECTION
           _buildSectionHeader('ACCOUNT'),
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -66,7 +69,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: const Text('Edit Profile'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    // Navigate to your existing ProfileScreen or a new EditProfile screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileScreen(),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
@@ -81,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
 
-          // --- NOTIFICATIONS SECTION ---
+          // NOTIFICATIONS SECTION
           _buildSectionHeader('NOTIFICATIONS'),
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -97,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
 
-          // --- MORE SECTION ---
+          // MORE SECTION
           _buildSectionHeader('MORE'),
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -128,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           
-          // --- DELETE ACCOUNT ---
+          // DELETE ACCOUNT
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             child: TextButton(
