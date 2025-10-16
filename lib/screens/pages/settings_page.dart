@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../app_shell.dart';
 import './profile_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../signin_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,6 +30,55 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  // Instance of FlutterSecureStorage to manage token
+  final storage = FlutterSecureStorage();
+
+  // Logout function
+  Future<void> _logout() async {
+    await storage.delete(key: 'jwt_token');
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const SignInPage()),
+    );
+  }
+
+  // Show confirmation dialog before logging out
+  Future<void> _showLogoutDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap a button
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text('Are you sure you want to log out?')],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red, // Make the text red
+              ),
+              child: const Text('Logout'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout(); // Call your existing logout function
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +99,25 @@ class _SettingsPageState extends State<SettingsPage> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.black),
-            onPressed: () {
-              /* More options action */
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'logout') {
+                _showLogoutDialog();
+              }
             },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Text('Logout'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'profile',
+                  child: Text('Profile'),
+                ),
+              ];
+            },
+            icon: const Icon(Icons.more_vert, color: Colors.black),
           ),
         ],
       ),
